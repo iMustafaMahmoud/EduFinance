@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { ensureDatabase } from "@/lib/db-init";
 
 export async function POST(request: NextRequest) {
   try {
-    // Ensure database is initialized (for serverless environments)
-    await ensureDatabase();
-
     const { email, password } = await request.json();
 
     // Find user by email
@@ -24,7 +20,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Don't send password to client
-    const { password: _, ...userWithoutPassword } = user;
+    const { password: _pwd, ...userWithoutPassword } = user;
 
     return NextResponse.json({ user: userWithoutPassword });
   } catch (error) {

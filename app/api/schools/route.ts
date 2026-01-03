@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { ensureDatabase } from "@/lib/db-init";
 
 export async function GET(request: NextRequest) {
   try {
-    // Ensure database is initialized (for serverless environments)
-    await ensureDatabase();
-
     const searchParams = request.nextUrl.searchParams;
     const search = searchParams.get("search")?.toLowerCase();
     const gender = searchParams.get("gender");

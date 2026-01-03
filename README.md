@@ -5,6 +5,7 @@ A comprehensive BNPL (Buy Now, Pay Later) application for education financing, b
 ## Features
 
 ### End User (Student/Parent)
+
 - **Authentication**: Sign up, sign in, and sign out with secure password storage
 - **Browse Schools**: Search and filter schools/universities by name, gender, and area with animated cards
 - **Apply for Installments**: Submit applications for payment plans
@@ -15,6 +16,7 @@ A comprehensive BNPL (Buy Now, Pay Later) application for education financing, b
 - **Animations**: Smooth page transitions and interactive UI elements with Framer Motion
 
 ### Admin
+
 - **Dashboard**: Overview of platform statistics with real-time data
 - **School Management**: Add, edit, and manage schools/universities visibility
 - **Application Review**: Approve or reject student applications with reasons
@@ -44,12 +46,14 @@ A comprehensive BNPL (Buy Now, Pay Later) application for education financing, b
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd end-user
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 # or
@@ -59,6 +63,7 @@ yarn install
 ```
 
 3. Set up the database:
+
 ```bash
 # Generate Prisma Client
 npm run db:generate
@@ -74,6 +79,7 @@ npm run db:setup
 ```
 
 4. Run the development server:
+
 ```bash
 npm run dev
 # or
@@ -87,10 +93,12 @@ yarn dev
 ## Demo Credentials
 
 ### End User
+
 - Email: `john@example.com`
 - Password: `password123`
 
 ### Admin
+
 - Email: `admin@example.com`
 - Password: `password123`
 
@@ -134,18 +142,21 @@ yarn dev
 ## Key Features Implementation
 
 ### Architecture
+
 - **Server Components**: Data fetching happens on the server for optimal performance
 - **Client Components**: Interactive UI elements with client-side state management
 - **Type Safety**: Centralized type definitions with Prisma-generated types
 - **Code Organization**: Clear separation between server and client logic
 
 ### Authentication
+
 - Secure authentication using Prisma and bcrypt (mocked for demo)
 - Role-based routing (end_user vs admin)
 - Protected routes with auth context
 - Persistent sessions using localStorage
 
 ### Payment Flow
+
 1. User browses schools and selects one
 2. Submits application with desired amount and installment count
 3. Admin reviews and approves/rejects
@@ -156,6 +167,7 @@ yarn dev
 8. Plan becomes "completed" when all payments are made
 
 ### Database Management
+
 - Prisma ORM with SQLite for development
 - Type-safe database queries
 - Seed data for schools, users, and sample applications
@@ -163,6 +175,7 @@ yarn dev
 - All CRUD operations through API routes
 
 ### Animations
+
 - Page transitions with fade-in effects
 - Staggered list animations
 - Hover effects on cards and buttons
@@ -170,6 +183,7 @@ yarn dev
 - Interactive button feedback
 
 ### Testing
+
 - Unit tests for components with Jest and React Testing Library
 - API route testing
 - Utility function testing
@@ -178,11 +192,13 @@ yarn dev
 ## Application Lifecycle
 
 ### Applications
+
 - **Pending**: Awaiting admin review
 - **Approved**: Ready for checkout
 - **Rejected**: Declined with reason
 
 ### Installment Plans
+
 - **Submitted**: Approved but awaiting down payment
 - **Active**: Down payment completed, monthly payments in progress
 - **Completed**: All installments paid
@@ -190,22 +206,26 @@ yarn dev
 ## API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/signin` - User sign in
 - `POST /api/auth/signup` - User registration
 
 ### Schools
+
 - `GET /api/schools` - List all schools (with filters)
 - `GET /api/schools/[id]` - Get school details
 - `POST /api/schools` - Create new school (admin)
 - `PUT /api/schools/[id]` - Update school (admin)
 
 ### Applications
+
 - `GET /api/applications` - List applications (filtered by user/status)
 - `GET /api/applications/[id]` - Get application details
 - `POST /api/applications` - Submit new application
 - `PUT /api/applications/[id]` - Approve/reject application (admin)
 
 ### Installment Plans
+
 - `GET /api/plans` - List installment plans
 - `GET /api/plans/[id]` - Get plan details
 - `POST /api/plans/[id]/pay` - Make payment (down payment or installment)
@@ -213,6 +233,7 @@ yarn dev
 ## Available Scripts
 
 ### Development
+
 ```bash
 npm run dev          # Start development server
 npm run build        # Build for production
@@ -221,6 +242,7 @@ npm run lint         # Run ESLint
 ```
 
 ### Database
+
 ```bash
 npm run db:generate  # Generate Prisma Client
 npm run db:migrate   # Run database migrations
@@ -230,6 +252,7 @@ npm run db:studio    # Open Prisma Studio (database GUI)
 ```
 
 ### Testing
+
 ```bash
 npm run test         # Run all tests
 npm run test:watch   # Run tests in watch mode
@@ -239,26 +262,31 @@ npm run test:coverage # Run tests with coverage report
 ## Development Notes
 
 ### Mock Payment System
+
 - Payment forms are non-functional (mock only)
 - Payments are processed immediately when submitted
 - No actual payment gateway integration
 
 ### Database
+
 - Development uses SQLite for simplicity
 - Production should use PostgreSQL or another production-ready database
 - Update `DATABASE_URL` in `.env` file to change database
 
 ### Server Components
+
 - Most pages use Server Components for data fetching
 - Client Components handle interactivity (forms, filters, animations)
 - Data is passed from Server to Client Components via props
 
 ### Type Safety
+
 - All types centralized in `lib/types.ts`
 - Prisma-generated types extended for relations
 - Strict TypeScript configuration
 
 ### Testing Best Practices
+
 - Mock external dependencies (Prisma, Next.js router)
 - Test user interactions and component rendering
 - Isolate unit tests from integration tests
@@ -281,7 +309,9 @@ npm run test:coverage # Run tests with coverage report
 ## Troubleshooting
 
 ### Prisma Issues
+
 If you encounter Prisma-related errors:
+
 ```bash
 # Reset the database
 npm run db:migrate -- --name init
@@ -293,7 +323,9 @@ npm run db:generate
 ```
 
 ### Test Issues
+
 If tests fail to run:
+
 ```bash
 # Install missing dependencies
 pnpm add -D @jest/test-sequencer
@@ -306,7 +338,9 @@ npm run test
 ```
 
 ### Port Already in Use
+
 If port 3000 is already in use:
+
 ```bash
 # Kill the process using port 3000
 lsof -ti:3000 | xargs kill -9
@@ -317,7 +351,20 @@ PORT=3001 npm run dev
 
 ## Deployment
 
-### Deploy to Vercel
+### ⚠️ IMPORTANT: SQLite is NOT Compatible with Vercel
+
+**This project uses SQLite which does NOT work on Vercel's serverless platform.**
+
+For Vercel deployment, you MUST use a proper database:
+
+- **Vercel Postgres** (Recommended - 10 min setup)
+- **Supabase** (PostgreSQL - Free tier)
+- **PlanetScale** (MySQL - Free tier)
+- **Railway** (PostgreSQL - $5/month)
+
+**See `SQLITE_VERCEL_INCOMPATIBLE.md` for complete migration guide.**
+
+### Deploy to Vercel (After Database Setup)
 
 #### Quick Deploy
 
@@ -325,29 +372,59 @@ PORT=3001 npm run dev
 
 #### Manual Deployment
 
-1. **Set Environment Variable**:
-   - Go to your Vercel project settings
-   - Add `DATABASE_URL` environment variable
-   - For development: `file:./dev.db`
-   - For production: Use Vercel Postgres or another database service
+1. **Set Up Production Database First!**
 
-2. **Deploy**:
+   - Create Vercel Postgres database (recommended)
+   - Or use Supabase/PlanetScale/Railway
+   - See `SQLITE_VERCEL_INCOMPATIBLE.md` for instructions
+
+2. **Update Prisma Schema**:
+
+   ```prisma
+   datasource db {
+     provider = "postgresql"  // or "mysql"
+     url      = env("DATABASE_URL")
+   }
+   ```
+
+3. **Create Migration**:
+
    ```bash
+   npx prisma migrate dev --name init
+   ```
+
+4. **Set Environment Variable**:
+
+   - Go to Vercel project settings
+   - Add `DATABASE_URL` environment variable
+   - Value: Your database connection string
+
+5. **Deploy**:
+
+   ```bash
+   git add .
+   git commit -m "Add database migration"
+   git push
    vercel --prod
    ```
 
-3. **Run Migrations** (if using a production database):
+6. **Run Migrations**:
+
    ```bash
    npx prisma migrate deploy
    ```
 
-**Important**: See `VERCEL_ENV_SETUP.md` for detailed deployment instructions and database configuration.
+7. **Seed Database**:
+   ```bash
+   npx tsx prisma/seed.ts
+   ```
 
 ### Production Database
 
 ⚠️ **SQLite is not recommended for production!**
 
 For production deployments, use:
+
 - **Vercel Postgres** (recommended) - Native integration
 - **Supabase** - PostgreSQL with generous free tier
 - **PlanetScale** - MySQL with serverless driver
