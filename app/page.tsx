@@ -1,65 +1,158 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { useAuth } from "@/lib/auth-context";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Link from "next/link";
+
+export default function HomePage() {
+  const { user, isLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isLoading && user) {
+      if (user.role === "admin") {
+        router.push("/admin");
+      } else {
+        router.push("/dashboard");
+      }
+    }
+  }, [user, isLoading, router]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-lg">Loading...</p>
+      </div>
+    );
+  }
+
+  if (user) {
+    return null;
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-linear-to-b from-blue-50 to-white">
+      <div className="container mx-auto px-4 py-16">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-bold mb-4 text-gray-900">EduFinance</h1>
+          <p className="text-xl text-gray-600 mb-8">
+            Buy Now, Pay Later for Education
+          </p>
+          <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+            Flexible payment plans to make quality education accessible. Apply
+            for installments and pay your tuition in convenient monthly
+            payments.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="text-2xl">For Students & Parents</CardTitle>
+              <CardDescription>
+                Browse schools and apply for flexible payment plans
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <ul className="space-y-2 text-gray-600">
+                <li>✓ Browse schools and universities</li>
+                <li>✓ Apply for installment plans</li>
+                <li>✓ Flexible monthly payments</li>
+                <li>✓ Track your payment progress</li>
+              </ul>
+              <div className="space-x-4">
+                <Link href="/auth/signin">
+                  <Button variant="default">Sign In</Button>
+                </Link>
+                <Link href="/auth/signup">
+                  <Button variant="outline">Sign Up</Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="text-2xl">For Administrators</CardTitle>
+              <CardDescription>
+                Manage schools, applications, and payment plans
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <ul className="space-y-2 text-gray-600">
+                <li>✓ Manage institutions</li>
+                <li>✓ Review applications</li>
+                <li>✓ Track installment plans</li>
+                <li>✓ Monitor payments</li>
+              </ul>
+              <div className="space-x-4">
+                <Link href="/auth/signin?role=admin">
+                  <Button variant="default">Admin Sign In</Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-      </main>
+
+        <div className="bg-blue-100 rounded-lg p-8 max-w-2xl mx-auto">
+          <h2 className="text-2xl font-bold mb-4 text-center">How It Works</h2>
+          <div className="space-y-4">
+            <div className="flex items-start gap-4">
+              <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold">
+                1
+              </div>
+              <div>
+                <h3 className="font-semibold">Choose Your School</h3>
+                <p className="text-gray-600">
+                  Browse and select from our partner institutions
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold">
+                2
+              </div>
+              <div>
+                <h3 className="font-semibold">Apply for Installments</h3>
+                <p className="text-gray-600">
+                  Submit your application with your preferred payment plan
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold">
+                3
+              </div>
+              <div>
+                <h3 className="font-semibold">Get Approved</h3>
+                <p className="text-gray-600">
+                  Wait for application review and approval
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold">
+                4
+              </div>
+              <div>
+                <h3 className="font-semibold">Pay & Learn</h3>
+                <p className="text-gray-600">
+                  Make your down payment and start your education journey
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
