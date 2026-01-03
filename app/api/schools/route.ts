@@ -1,22 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { Prisma } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
-    const search = searchParams.get("search")?.toLowerCase();
+    const search = searchParams.get("search");
     const gender = searchParams.get("gender");
     const area = searchParams.get("area");
 
-    const where: {
-      isVisible: boolean;
-      name?: { contains: string; mode: string };
-      gender?: string;
-      area?: string;
-    } = { isVisible: true };
+    const where: Prisma.SchoolWhereInput = { isVisible: true };
 
     if (search) {
-      where.name = { contains: search, mode: "insensitive" };
+      where.name = { contains: search };
     }
 
     if (gender && gender !== "all") {
