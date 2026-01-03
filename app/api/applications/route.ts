@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
   try {
@@ -37,12 +36,10 @@ export async function GET(request: NextRequest) {
     });
 
     // Remove passwords from users
-    const applicationsWithoutPasswords = applications.map(
-      (app: Prisma.ApplicationGetPayload<{ include: { user: true; school: true } }>) => ({
-        ...app,
-        user: app.user ? { ...app.user, password: undefined } : null,
-      })
-    );
+    const applicationsWithoutPasswords = applications.map((app) => ({
+      ...app,
+      user: app.user ? { ...app.user, password: undefined } : null,
+    }));
 
     return NextResponse.json({ applications: applicationsWithoutPasswords });
   } catch (error) {

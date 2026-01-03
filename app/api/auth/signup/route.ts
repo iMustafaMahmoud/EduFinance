@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { ensureDatabase } from "@/lib/db-init";
 
 export async function POST(request: NextRequest) {
   try {
+    // Ensure database is initialized (for serverless environments)
+    await ensureDatabase();
+
     const { email, password, name, role } = await request.json();
 
     // Check if user already exists

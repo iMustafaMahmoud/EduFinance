@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
 
 export async function GET(request: NextRequest) {
   try {
@@ -41,21 +40,10 @@ export async function GET(request: NextRequest) {
     });
 
     // Remove passwords from users
-    const plansWithoutPasswords = plans.map(
-      (
-        plan: Prisma.InstallmentPlanGetPayload<{
-          include: {
-            user: true;
-            school: true;
-            application: true;
-            payments: true;
-          };
-        }>
-      ) => ({
-        ...plan,
-        user: plan.user ? { ...plan.user, password: undefined } : null,
-      })
-    );
+    const plansWithoutPasswords = plans.map((plan) => ({
+      ...plan,
+      user: plan.user ? { ...plan.user, password: undefined } : null,
+    }));
 
     return NextResponse.json({ plans: plansWithoutPasswords });
   } catch (error) {
