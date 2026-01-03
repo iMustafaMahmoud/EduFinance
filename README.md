@@ -315,6 +315,46 @@ lsof -ti:3000 | xargs kill -9
 PORT=3001 npm run dev
 ```
 
+## Deployment
+
+### Deploy to Vercel
+
+#### Quick Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/edufinance)
+
+#### Manual Deployment
+
+1. **Set Environment Variable**:
+   - Go to your Vercel project settings
+   - Add `DATABASE_URL` environment variable
+   - For development: `file:./dev.db`
+   - For production: Use Vercel Postgres or another database service
+
+2. **Deploy**:
+   ```bash
+   vercel --prod
+   ```
+
+3. **Run Migrations** (if using a production database):
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+**Important**: See `VERCEL_ENV_SETUP.md` for detailed deployment instructions and database configuration.
+
+### Production Database
+
+⚠️ **SQLite is not recommended for production!**
+
+For production deployments, use:
+- **Vercel Postgres** (recommended) - Native integration
+- **Supabase** - PostgreSQL with generous free tier
+- **PlanetScale** - MySQL with serverless driver
+- **Railway** - PostgreSQL hosting
+
+See `VERCEL_DEPLOYMENT.md` for complete setup instructions.
+
 ## License
 
 This is a demo application for educational purposes.
