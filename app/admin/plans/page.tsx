@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { AdminPlansList } from "@/components/admin-plans-list";
 
+// Force dynamic rendering - don't pre-render at build time
+export const dynamic = 'force-dynamic';
+
 export default async function AdminPlansPage() {
   const plans = await prisma.installmentPlan.findMany({
     include: {

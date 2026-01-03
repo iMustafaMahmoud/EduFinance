@@ -3,6 +3,9 @@ import { AdminSchoolsList } from "@/components/admin-schools-list";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
+// Force dynamic rendering - don't pre-render at build time
+export const dynamic = 'force-dynamic';
+
 export default async function AdminSchoolsPage() {
   const schools = await prisma.school.findMany({
     orderBy: { createdAt: "desc" },
